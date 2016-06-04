@@ -204,21 +204,21 @@ void PixelShader( const Pixel& p )
     if( x >= 0 && y >= 0 &&  x < SCREEN_WIDTH && y < SCREEN_HEIGHT ){
         //if closest to the screen
         if( p.zinv > depthBuffer[y][x] ){
-        depthBuffer[y][x] = p.zinv;//update depth buffer
+            depthBuffer[y][x] = p.zinv;//update depth buffer
             
-        //illumination
-        vec3 normal =glm::normalize(currentNormal);
-        //light ray vector
-        vec3 rVector =glm::normalize(lightPos-p.pos3d);
-        float distance = glm::distance(lightPos, p.pos3d);
-        //power calculation for each point
-        float surfaceArea = 4 * PI * pow(distance,2);
-        vec3 powerPerArea = lightPower / surfaceArea;
-        float dotProduct = (rVector.x * normal.x + rVector.y * normal.y + rVector.z * normal.z);
-        vec3 directIllumination = powerPerArea * max(0, dotProduct);
-        
-        vec3 illumination = currentReflectance*(directIllumination+indirectLightPowerPerArea);
-        PutPixelSDL( screen, x, y, illumination );
+            //illumination
+            vec3 normal =glm::normalize(currentNormal);
+            //light ray vector
+            vec3 rVector =glm::normalize(lightPos-p.pos3d);
+            float distance = glm::distance(lightPos, p.pos3d);
+            //power calculation for each point
+            float surfaceArea = 4 * PI * pow(distance,2);
+            vec3 powerPerArea = lightPower / surfaceArea;
+            float dotProduct = (rVector.x * normal.x + rVector.y * normal.y + rVector.z * normal.z);
+            vec3 directIllumination = powerPerArea * max(0, dotProduct);
+            
+            vec3 illumination = currentReflectance*(directIllumination+indirectLightPowerPerArea);
+            PutPixelSDL( screen, x, y, illumination );
         }
     }
 }
